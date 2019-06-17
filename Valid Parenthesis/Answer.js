@@ -19,3 +19,30 @@ var isValid = function(s) {
     return false
 
 };
+
+// more efficient
+//
+// /**
+//  * @param {string} s
+//  * @return {boolean}
+//  */
+var isValid = function(s) {
+    if (s === '') {
+        return true
+    }
+    let stack = []
+    let obj = {
+        '(' : ')',
+        '[' : ']',
+        '{' : '}'
+    }
+    for (let i = 0; i < s.length; i++) {
+        if (obj[s[i]] !== undefined) {
+            stack.push(s[i])
+        } else if (s[i] !== obj[stack.pop()]) {
+            return false
+        }
+    }
+    return stack.length === 0 ? true : false
+
+}
