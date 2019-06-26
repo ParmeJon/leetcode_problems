@@ -56,9 +56,6 @@ function climb(num1, num2, obj) {
 //  * @return {number}
 //  */
 var climbStairs = function(n) {
-    if (n === 1) {
-        return 1
-    }
     let obj = {
         1: 1,
         2: 2
