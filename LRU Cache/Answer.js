@@ -2,9 +2,62 @@
  * @param {number} capacity
  */
 var LRUCache = function(capacity) {
+    this.cache = new Map();
+    this.capacity = capacity;
+};
+
+/** 
+ * @param {number} key
+ * @return {number}
+ */
+LRUCache.prototype.get = function(key) {
+    if (this.cache.has(key)) {
+        const val = this.cache.get(key);
+        this.cache.delete(key);
+        this.cache.set(key, val);
+        console.log(this.cache)
+        return val;
+    } else {
+        return -1;
+    }
+};
+
+/** 
+ * @param {number} key 
+ * @param {number} value
+ * @return {void}
+ */
+LRUCache.prototype.put = function(key, value) {
+    if (this.cache.has(key)) {
+        this.cache.delete(key);
+        this.cache.set(key, value);
+    } else {
+        if (this.cache.size < this.capacity) {
+            this.cache.set(key, value);
+        } else {
+            const lru_key = this.cache.keys().next().value;
+            this.cache.delete(lru_key);
+            this.cache.set(key, value);
+        }
+    }
+};
+
+/** 
+ * Your LRUCache object will be instantiated and called as such:
+ * var obj = new LRUCache(capacity)
+ * var param_1 = obj.get(key)
+ * obj.put(key,value)
+ */
+
+// WITHOUT MAP OBJECT
+
+/**
+ * @param {number} capacity
+ */
+var LRUCache = function(capacity) {
   this.size = capacity;
   this.obj = {};
-  this.stack = [];
+  this.track = [];
 };
 
 /**
@@ -12,14 +65,15 @@ var LRUCache = function(capacity) {
  * @return {number}
  */
 LRUCache.prototype.get = function(key) {
-  if (this.obj[key] !== undefined) {
-    if (this.track[key] !== undefined) {
-      this.track[key] += 1;
-    } else {
-      this.track[key] = 1;
+  if (this.obj[key]) {
+    for (let i = 0; i < this.track.length; i++) {
+      if (this.track[i] === key) {
+        let renew = this.track.splice(i, 1)[0];
+        this.track.push(renew);
+      }
     }
-
     return this.obj[key];
+    console.log(this.track);
   } else {
     return -1;
   }
@@ -31,19 +85,24 @@ LRUCache.prototype.get = function(key) {
  * @return {void}
  */
 LRUCache.prototype.put = function(key, value) {
-  if (Object.keys(this.obj).length === this.size) {
-    //         Find Least recently used.
-    let lowest = Number.MAX_VALUE;
-    for (let key in this.track) {
-      if (this.track[key] <= lowest) {
-        lowest = key;
+  if (this.obj[key]) {
+    for (let i = 0; i < this.track.length; i++) {
+      if (this.track[i] === key) {
+        let renew = this.track.splice(i, 1)[0];
+        this.track.push(renew);
+        this.obj[key] = value;
       }
     }
-    delete this.track[lowest];
-    delete this.obj[lowest];
+    return;
+  }
+
+  if (Object.keys(this.obj).length === this.size && !this.obj[key]) {
+    //         Find Least recently used.
+    let gone = this.track.shift();
+    delete this.obj[gone];
   }
   this.obj[key] = value;
-  this.track[key] = 1;
+  this.track.push(key);
 };
 
 /**
