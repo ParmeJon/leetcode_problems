@@ -11,6 +11,7 @@ var LRUCache = function(capacity) {
  * @return {number}
  */
 LRUCache.prototype.get = function(key) {
+    // this.cache looks like - first Map { 1 => 1, 2 => 2 }
     if (this.cache.has(key)) {
         const val = this.cache.get(key);
         this.cache.delete(key);
@@ -35,10 +36,12 @@ LRUCache.prototype.put = function(key, value) {
         if (this.cache.size < this.capacity) {
             this.cache.set(key, value);
         } else {
-            const lru_key = this.cache.keys().next().value;
-            this.cache.delete(lru_key);
-            this.cache.set(key, value);
-        }
+                 // Iterate throught the Map Object by calling keys()
+                 // kind of like a linked list keys? - [Map Iterator] { 1 }
+                 const lru_key = this.cache.keys().next().value;
+                 this.cache.delete(lru_key);
+                 this.cache.set(key, value);
+               }
     }
 };
 
