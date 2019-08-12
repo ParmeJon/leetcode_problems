@@ -18,3 +18,23 @@ var maxProfit = function(prices) {
   }
   return bestProfit;
 };
+
+
+// /**
+//  * @param {number[]} prices
+//  * @return {number}
+//  */
+
+// ONE PASS.
+var maxProfit = function(prices) {
+   let smallNum = Number.POSITIVE_INFINITY
+   let bestProfit = 0
+   for (let i = 0; i < prices.length; i++) {
+      if (prices[i] < smallNum) {
+          smallNum = prices[i]
+      } else if (prices[i] - smallNum > bestProfit) {
+          bestProfit = prices[i] - smallNum
+      }
+   }
+    return bestProfit
+};
