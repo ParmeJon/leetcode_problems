@@ -25,3 +25,16 @@ var hasCycle = function(head) {
   }
   return false;
 };
+
+var hasCycle = function(head) {
+  while (head) {
+    if (head.hasVisited) {
+      return true;
+    }
+
+    head.hasVisited = true;
+    head = head.next;
+  }
+
+  return false;
+};
