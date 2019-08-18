@@ -9,6 +9,8 @@
 //  * @param {ListNode} head
 //  * @return {ListNode}
 //  */
+
+// Recursively
 var reverseList = function(head, prev = null) {
   if (!head) {
     return prev;
@@ -19,4 +21,18 @@ var reverseList = function(head, prev = null) {
   current.next = prev;
 
   return reverseList(head, current);
+};
+
+// Iteratively
+
+var reverseList = function(head) {
+  let prev = null;
+  let curr = head;
+  while (curr !== null) {
+    let nextTemp = curr.next;
+    curr.next = prev;
+    prev = curr;
+    curr = nextTemp;
+  }
+  return prev;
 };
