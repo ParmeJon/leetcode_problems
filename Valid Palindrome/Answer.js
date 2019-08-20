@@ -11,7 +11,6 @@ var isPalindrome = function(s) {
   let lowerS = s.toLowerCase();
   let backCount = lowerS.length - 1;
   for (let i = 0; i < lowerS.length; i++) {
-    console.log(lowerS[i]);
     while (!lowerS[i].match(/^[0-9a-zA-Z]+$/) && i < lowerS.length - 1) {
       i++;
     }
