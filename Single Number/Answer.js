@@ -13,3 +13,16 @@ var singleNumber = function(nums) {
   }
   return Object.keys(obj)[0];
 };
+
+// Slight refactor
+var singleNumber = function(nums) {
+  let obj = {};
+  nums.forEach(num => {
+    if (obj[num]) {
+      delete obj[num];
+    } else {
+      obj[num] = true;
+    }
+  });
+  return Object.keys(obj)[0];
+};
