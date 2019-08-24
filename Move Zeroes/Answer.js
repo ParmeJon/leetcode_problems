@@ -10,3 +10,15 @@ var moveZeroes = function(nums) {
     }
   }
 };
+
+// Accepted flattened array.
+var moveZeroes = function(nums) {
+  let x = 0;
+  for (let i = 0; i < nums.length - x; i++) {
+    if (nums[i] === 0) {
+      nums.push(nums.splice(i, 1)[0]);
+      i--;
+      x++;
+    }
+  }
+};
