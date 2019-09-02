@@ -43,7 +43,11 @@ var diameterOfBinaryTree = function(root) {
     }
     let left = depth(node.left);
     let right = depth(node.right);
+    // changes number of nodes to Max depth of left + max depth of right 
+    // on current node
     numberOfNodes = Math.max(numberOfNodes, left + right);
+    // Apply that to every node^
+    // Done for all the nodes left of root and right
     return Math.max(left, right) + 1;
   }
 
