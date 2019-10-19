@@ -3,42 +3,39 @@
  * @param {string[]} wordDict
  * @return {boolean}
  */
-// First attempt
+// Own attempt
 var wordBreak = function(s, wordDict) {
-  //     BASE CASE
-  if (s.length === 0) {
-    return true;
-  }
-  //     check if a word is found in s
-  let notFound = true;
-  for (let i = 0; i < wordDict.length; i++) {
-    let wordIdx = s.indexOf(wordDict[i]);
-    if (wordIdx > -1) {
-      notFound = false;
+  let memo = {};
+  const wordSet = new Set(wordDict);
+
+  function recurseLook(s) {
+    if (s === "") {
+      memo[s] = true;
+      return true;
     }
-  }
-  if (notFound) {
+    if (memo[s] !== undefined && memo[s]) {
+      return true;
+    }
+    if (memo[s] !== undefined && memo[s] === false) {
+      return false;
+    }
+
+    for (let i = 1; i <= s.length; i++) {
+      if (wordSet.has(s.substr(0, i)) && recurseLook(s.substr(i, s.length))) {
+        memo[s.substr(0, i)] = true;
+        return true;
+      }
+      memo[s.substr(0, i)] = false;
+    }
     return false;
   }
 
-  let firstReplace = wordDict.shift();
-  wordDict.push(firstReplace);
-  // console.log(s)
-  // console.log(wordDict)
-  return wordBreak(s.replace(firstReplace, ""), wordDict);
-
-  //     removes the first aailable word.
-  // function findAndRemove(string) {
-  //     for (let i = 0; i < wordDict.length; i++) {
-  //         let wordIdx = string.indexOf(wordDict[i])
-  //         if (wordIdx > -1) {
-  //             return string.replace(wordDict[i], "")
-  //         }
-  //     }
-  // }
+  return recurseLook(s);
 };
 
 
+
+// Working
 var wordBreak = function(s, wordDict) {
   var t = [];
 
