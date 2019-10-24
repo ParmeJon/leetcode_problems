@@ -31,9 +31,41 @@ var coinChange = function(coins, amount) {
     return dp[amount] > amount ? -1 : dp[amount]
 };
 
-
-[1, 2, 5];
-100;
-
-[3, 4, 6, 9];
-16;
+// Top Down Approach
+/**
+ * @param {number[]} coins
+ * @param {number} amount
+ * @return {number}
+ */
+var coinChange = function(coins, amount) {
+    const memo = {0:0}
+    function recurseChange(coins, amount, memo) {
+        let min = Infinity
+        if (amount === 0) {
+            return 0
+        }
+        if (amount < 0) {
+            return -1
+        }
+        if (memo[amount]) {
+            return memo[amount]
+        }
+        
+        for (let i = 0; i < coins.length; i++) {
+            let result = recurseChange(coins, amount - coins[i], memo)
+            if (result >= 0 && result < min) {
+            min = result + 1
+            }
+        }
+        
+        if (min === Infinity) {
+            memo[amount] = -1
+        } else {
+            memo[amount] = min
+        }
+        
+        return memo[amount]
+    }
+    
+    return recurseChange(coins, amount, memo)
+};
