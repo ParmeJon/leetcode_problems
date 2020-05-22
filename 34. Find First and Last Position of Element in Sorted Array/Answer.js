@@ -1,21 +1,29 @@
 /**
- * @param {string[]} strs
- * @return {string[][]}
+ * @param {number[]} nums
+ * @param {number} target
+ * @return {number[]}
  */
-var groupAnagrams = function (strs) {
-  let map = {};
-  let result = [];
-  let counter = 0;
-  for (let i = 0; i < strs.length; i++) {
-    let word = strs[i].split("").sort().join("");
-    if (map[word] !== undefined) {
-      result[map[word]].push(strs[i]);
-    } else {
-      map[word] = counter;
-      result[counter] = [];
-      result[counter].push(strs[i]);
-      counter++;
+var searchRange = function (nums, target) {
+  function findIdx(nums, target, left) {
+    let low = 0;
+    let high = nums.length;
+    while (low < high) {
+      let midPt = Math.floor((low + high) / 2);
+      if (nums[midPt] > target || (left && target === nums[midPt])) {
+        high = midPt;
+      } else {
+        low = midPt + 1;
+      }
     }
+    return low;
   }
-  return result;
+
+  let leftIdx = findIdx(nums, target, true);
+
+  if (leftIdx === nums.length || nums[leftIdx] !== target) {
+    return [-1, -1];
+  }
+
+  let rightIdx = findIdx(nums, target, false) - 1;
+  return [leftIdx, rightIdx];
 };
